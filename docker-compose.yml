@@ -1,0 +1,21 @@
+version: "3"
+services:
+  web:
+    build: .
+    volumes:
+    - .:/usr/src/app
+    - /usr/src/app/node_modules
+    ports:
+    - "8080:8080"
+    - 9229:9229
+    command: bash -c "npm install && npm install gulp-cli -g && gulp && npm run api-testdoc"
+    depends_on:
+    - mongo
+  mongo:
+    image: mongo
+    ports:
+    - "27017:27017"
+    volumes:
+    - data-volume:/data/db
+volumes:
+  data-volume:
